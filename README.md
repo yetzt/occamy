@@ -18,7 +18,7 @@ If you use Occamy from node.js, pass your `window.document` as third parameter;
 
 ## Options 
 
-* `dir`: *`row`* or *`col`* for row or column layout
+* `dir`: *`row`* or *`col`* for row or column layout; omit for autopilot.
 * `prefix`: alternative prefix for `occamy-item` css elements
 * `gap`: gap between elements in pixels
 
@@ -33,12 +33,6 @@ var occ = occamy('#container');
 window.addEventListener("resize", function(){
 	occ.redraw();
 });
-			
-			// destroy on escape
-			document.addEventListener('keydown', function(evt){
-				if (27 === evt.keyCode) o.destroy();a
-			});
-
 ```
 
 #### occamy.destroy()
