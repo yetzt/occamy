@@ -1,0 +1,24 @@
+{
+  "name": "occamy",
+  "version": "1.0.0",
+  "description": "the occamy grows or shrinks in order to fit available space",
+  "main": "dist/occamy.min.js",
+  "directories": {
+    "example": "example"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yetzt/occamy.git"
+  },
+  "keywords": [
+    "occamy",
+    "layout",
+    "tiles"
+  ],
+  "author": "yetzt <node@yetzt.me>",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/yetzt/occamy/issues"
+  },
+  "homepage": "https://github.com/yetzt/occamy#readme"
+}

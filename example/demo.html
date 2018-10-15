@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<title>occamy demo</title>
+	<meta name="viewport" content="width=device-width">
+	<script src="../dist/occamy.min.js" type="text/javascript"></script>
+	<style type="text/css" media="screen">
+
+		html,body {
+			background-color: #333;
+			margin: 0;
+			padding: 0;
+			font-weight: 100;
+		}
+
+		#container {
+			display: block;
+			position: absolute;
+			top: 1vw;
+			left: 1vw;
+			right: 1vw;
+			bottom: 1vw;
+			overflow: hidden;
+		}
+
+		.item {
+			display: block;
+			margin: 0;
+			padding: 0;
+			text-align: center;
+			color: #fff;
+		}
+
+		.occamy-item {
+			background-color: #444;
+		}
+
+	</style>
+	<script type="text/javascript">
+
+		document.addEventListener('DOMContentLoaded', function(){
+	
+			var container = document.querySelector('#container');
+		
+			// create boxes
+			for (var i=0; i<=(10+Math.ceil(Math.random()*5)); i++) {
+				(function(w,h,i){
+					var e = document.createElement('div');
+					e.style.width = w+'px';
+					e.style.height = h+'px';
+					e.style.lineHeight = h+"px";
+					e.style.fontSize = (Math.min(w,h)/2)+'px';
+					e.className = 'item';
+					e.textContent = i;
+					container.appendChild(e);
+				})(50+Math.ceil(Math.random()*300), 50+Math.ceil(Math.random()*300), i);
+			};
+
+			var o = occamy('#container', { gap: 10 });
+			
+			// redraw on resize
+			window.addEventListener("resize", function(){
+				o.redraw();
+			});
+			
+			// destroy on escape
+			document.addEventListener('keydown', function(evt){
+				if (27 === evt.keyCode) o.destroy();a
+			});
+
+		});	
+
+	</script>
+</head>
+<body>
+	<div id="container"></div>
+</body>
+</html>
