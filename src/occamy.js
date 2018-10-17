@@ -9,7 +9,7 @@ function occamy(container, opts, doc){
 		prefix: "occamy",
 		gap: 0,
 	}, opts);
-	
+
 	if (typeof this.opts.gap !== 'number') this.opts.gap = parseInt(this.opts.gap,10);
 
 	this.style();
@@ -19,27 +19,27 @@ function occamy(container, opts, doc){
 
 // inject occamy css
 occamy.prototype.style = function(){
-	
+
 	// prevent multiple duplicate stylesheets
 	if (!!this.doc.getElementById(this.opts.prefix+"-style")) return;
-		
+
 	var css = this.doc.createElement("style");
 	css.setAttribute("type","text/css");
 	css.setAttribute("media", "screen")
 	css.setAttribute("id",this.opts.prefix+"-style");
-	
+
 	// webkit hack
 	css.appendChild(this.doc.createTextNode(""));
 
 	this.doc.head.appendChild(css);
-		
+
 	css.sheet.insertRule("."+(this.opts.prefix)+"-item { display: block; position: absolute; overflow: hidden; transition: left 0.2s ease, top 0.2s ease; }",0);
 	css.sheet.insertRule("."+(this.opts.prefix)+"-item > * { display: block; position: absolute; transform-origin: 50% 50%; transform: scale(0); transition: left 0.1s ease, top 0.1s ease, transform .2s ease; }",0);
 
 	this.stylesheet = css;
 
 	return this;
-	
+
 }
 
 // redraw
@@ -64,7 +64,7 @@ occamy.prototype.destroy = function(){
 		var list = self.container.getElementsByClassName(self.opts.prefix+'-'+c);
 		while (list.length > 0) self.unwrap(list[0]);
 	});
-	
+
 	// remove css
 	this.stylesheet.parentNode.removeChild(this.stylesheet);
 	this.stylesheet = null;
@@ -118,7 +118,7 @@ occamy.prototype.col = function(){
 	var group_num = Math.min(Math.max(1,(function(){
 		for (var i=0,d=Infinity;i<100;i++) { var e = Math.abs(container_ratio-((group_h/i)/(group_w*i))); if (e>d) return --i; d = e; }
 	})()),items.length);
-	
+
 	// substract gap size from container height
 	container_w -= (self.opts.gap*(group_num-1));
 
@@ -138,23 +138,24 @@ occamy.prototype.col = function(){
 
 	// calculate groups
 	groups = groups.map(function(group){
-	
+
 		// temporary height to scale
 		group.width = (container_w/group_num);
 
 		// total width of items scaled to temporary height
 		group.height = group.items.reduce(function(h,item){ return h+(item.offsetHeight*(group.width/item.offsetWidth)); }, 0);
-	
+
 		// intermediate width and height
 		group.width /= (group.height/container_h);
 		group.height = container_h;
-			
+
+
 		return group;
 	});
-	
+
 	var group_total = groups.reduce(function(w,g){ return (w+g.width); },0);
 	var group_scale = (container_w/group_total);
-	
+
 	var group_offset_x = 0;
 	groups = groups.map(function(group){
 
@@ -162,17 +163,17 @@ occamy.prototype.col = function(){
 		group.width *= group_scale;
 		group.offset_x = group_offset_x;
 		group.offset_y = 0;
-	
+
 		group.height = (container_h-(self.opts.gap*(group.items.length-1)));
-	
+
 		// find total of item width scaled to final height
 		group.scaleheight = group.items.reduce(function(h,item){ return h+(item.offsetHeight*(group.width/item.offsetWidth)); }, 0);
-	
+
 		// position items on screen
 		group.items.forEach(function(item){
-			
+
 			if (wrapme) self.wrap(item, self.opts.prefix+"-item");
-		
+
 			var itemheight = ((item.offsetHeight*(group.width/item.offsetWidth)) * (group.height/group.scaleheight));
 
 			self.css(item.parentNode, {
@@ -189,11 +190,11 @@ occamy.prototype.col = function(){
 				left: ((group.width-item.offsetWidth)/2)+'px',
 				top: ((itemheight-item.offsetHeight)/2)+'px',
 			});
-		
+
 			group.offset_y += (itemheight+self.opts.gap);
-		
+
 		});
-	
+
 		group_offset_x += (group.width+self.opts.gap);
 
 	});
@@ -245,23 +246,23 @@ occamy.prototype.row = function(){
 
 	// calculate groups
 	groups = groups.map(function(group){
-	
+
 		// temporary height to scale
 		group.height = (container_h/group_num);
 
 		// total width of items scaled to temporary height
 		group.width = group.items.reduce(function(w,item){ return w+(item.offsetWidth*(group.height/item.offsetHeight)); }, 0);
-	
+
 		// intermediate width and height
 		group.height /= (group.width/container_w);
 		group.width = container_w;
-			
+
 		return group;
 	});
 
 	var group_total = groups.reduce(function(h,g){ return (h+g.height); },0);
 	var group_scale = (container_h/group_total);
-	
+
 	var group_offset_y = 0;
 	groups = groups.map(function(group){
 
@@ -269,20 +270,17 @@ occamy.prototype.row = function(){
 		group.height *= group_scale;
 		group.offset_y = group_offset_y;
 		group.offset_x = 0;
-	
+
 		group.width = (container_w-(self.opts.gap*(group.items.length-1)));
-	
+
 		// find total of item width scaled to final height
 		group.scalewidth = group.items.reduce(function(w,item){ return w+(item.offsetWidth*(group.height/item.offsetHeight)); }, 0);
-	
+
 		// position items on screen
-	
-		var xgap = 0;
-	
 		group.items.forEach(function(item){
-					
+
 			if (wrapme) self.wrap(item, self.opts.prefix+"-item");
-			
+
 			var itemwidth = ((item.offsetWidth*(group.height/item.offsetHeight)) * (group.width/group.scalewidth));
 
 			self.css(item.parentNode, {
@@ -299,18 +297,18 @@ occamy.prototype.row = function(){
 				left: ((itemwidth-item.offsetWidth)/2)+'px',
 				top: ((group.height-item.offsetHeight)/2)+'px',
 			});
-		
+
 			group.offset_x += (itemwidth+self.opts.gap);
-		
+
 		});
-	
+
 		group_offset_y += (group.height+self.opts.gap);
-	
+
 		return group;
 
 	});
 
 	return this;
-};	
-	
+};
+
 if (typeof module !== 'undefined' && !!module.exports) module.exports = occamy;
