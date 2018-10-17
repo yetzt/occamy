@@ -168,19 +168,12 @@ occamy.prototype.col = function(){
 	
 		// position items on screen
 		group.items.forEach(function(item){
-					
-			if (wrapme) {
-				var w = self.doc.createElement('div');
-				w.classList.add(self.opts.prefix+"-item");
-				item.parentNode.insertBefore(w,item);
-				w.appendChild(item);
-			} else {
-				var w = item.parentNode;
-			}
+			
+			if (wrapme) self.wrap(item, self.opts.prefix+"-item");
 		
 			var itemheight = ((item.offsetHeight*(group.width/item.offsetWidth)) * (group.height/group.scaleheight));
 
-			self.css(w, {
+			self.css(item.parentNode, {
 				display: "block",
 				position: "absolute",
 				top: group.offset_y+"px",
@@ -284,18 +277,11 @@ occamy.prototype.row = function(){
 	
 		group.items.forEach(function(item){
 					
-			if (wrapme) {
-				var w = self.doc.createElement('div');
-				w.classList.add(self.opts.prefix+"-item");
-				item.parentNode.insertBefore(w,item);
-				w.appendChild(item);
-			} else {
-				var w = item.parentNode;
-			}
-		
+			if (wrapme) self.wrap(item, self.opts.prefix+"-item");
+			
 			var itemwidth = ((item.offsetWidth*(group.height/item.offsetHeight)) * (group.width/group.scalewidth));
 
-			self.css(w, {
+			self.css(item.parentNode, {
 				display: "block",
 				position: "absolute",
 				top: group.offset_y+"px",
