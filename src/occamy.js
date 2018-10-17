@@ -20,6 +20,9 @@ function occamy(container, opts, doc){
 // inject occamy css
 occamy.prototype.style = function(){
 	
+	// prevent multiple duplicate stylesheets
+	if (!!this.doc.getElementById(this.opts.prefix+"-style")) return;
+		
 	var css = this.doc.createElement("style");
 	css.setAttribute("type","text/css");
 	css.setAttribute("media", "screen")
