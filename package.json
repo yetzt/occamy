@@ -1,6 +1,6 @@
 {
   "name": "occamy",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "the occamy grows or shrinks in order to fit available space",
   "main": "dist/occamy.min.js",
   "scripts": {
