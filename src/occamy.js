@@ -102,6 +102,8 @@ occamy.prototype.col = function(){
 	var wrapme = !(self.container.getElementsByClassName(self.opts.prefix+'-item').length > 0);
 	var items = (wrapme) ? Array.from(self.container.childNodes) : Array.from(self.container.getElementsByClassName(self.opts.prefix+'-item')).reduce(function(i,n){ return i.concat(Array.from(n.childNodes)); },[]);
 
+	if (items.length === 0) return this;
+
 	var container_w = self.container.offsetWidth-1;
 	var container_h = self.container.offsetHeight-1;
 	var container_ratio = (container_h/container_w);
@@ -113,10 +115,10 @@ occamy.prototype.col = function(){
 	var group_h = container_h;
 
 	// calculate number of groups to best fit containers aspect ratio
-	var group_num = Math.max(1,(function(){
+	var group_num = Math.min(Math.max(1,(function(){
 		for (var i=0,d=Infinity;i<100;i++) { var e = Math.abs(container_ratio-((group_h/i)/(group_w*i))); if (e>d) return --i; d = e; }
-	})());
-
+	})()),items.length);
+	
 	// substract gap size from container height
 	container_w -= (self.opts.gap*(group_num-1));
 
@@ -207,6 +209,8 @@ occamy.prototype.row = function(){
 	var wrapme = !(self.container.getElementsByClassName(self.opts.prefix+'-item').length > 0);
 	var items = (wrapme) ? Array.from(self.container.childNodes) : Array.from(self.container.getElementsByClassName(self.opts.prefix+'-item')).reduce(function(i,n){ return i.concat(Array.from(n.childNodes)); },[]);
 
+	if (items.length === 0) return this;
+
 	var container_w = self.container.offsetWidth-1;
 	var container_h = self.container.offsetHeight-1;
 	var container_ratio = (container_w/container_h);
@@ -218,9 +222,9 @@ occamy.prototype.row = function(){
 	var group_w = container_w;
 
 	// calculate number of groups to best fit containers aspect ratio
-	var group_num = Math.max(1,(function(){
+	var group_num = Math.min(Math.max(1,(function(){
 		for (var i=0,d=Infinity;i<100;i++) { var e = Math.abs(container_ratio-((group_w/i)/(group_h*i))); if (e>d) return --i; d = e; }
-	})());
+	})()),items.length);
 
 	// substract gap size from container height
 	container_h -= (self.opts.gap*(group_num-1));
