@@ -3,6 +3,9 @@
   "version": "1.0.1",
   "description": "the occamy grows or shrinks in order to fit available space",
   "main": "dist/occamy.min.js",
+  "scripts": {
+	  "distribute": "command -v uglifyjs >/dev/null 2>&1 || npm i -g uglify-js; uglifyjs src/occamy.js --compress --mangle --warn --output dist/occamy.min.js; command -v zopfli >/dev/null 2>&1 && zopfli --i100 dist/occamy.min.js"
+  },
   "directories": {
     "example": "example"
   },
